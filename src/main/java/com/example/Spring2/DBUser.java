@@ -33,4 +33,19 @@ public class DBUser {
         //not found
         return null;
     }
+    public UserClass getAUserByName(String name){
+        for(UserClass user:userTable)
+        {
+            //found
+            if(user.getName().equals(name))
+                return user;
+        }
+        //not found
+        return null;
+    }
+//adding new users
+    public UserClass AddUser(UserClass user){
+        userTable.add(user);
+        return user;
+    }
 }
