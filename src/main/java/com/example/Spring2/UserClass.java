@@ -7,7 +7,6 @@ public class UserClass {
     private int age;
 
 
-
     public int getId() {
         return id;
     }

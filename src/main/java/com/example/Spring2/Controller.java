@@ -1,13 +1,19 @@
 package com.example.Spring2;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class Controller {
 
-    DBUser db= new DBUser();
+    DBUser db = new DBUser();
 
     @GetMapping("/hey")
     public String sayHi() {
@@ -19,29 +25,45 @@ public class Controller {
 //http://localhost:8080/search?q=ramu    -- query parameter
 
 
-//http://localhost:8080/users    --get api
+    //http://localhost:8080/users    --get api
     @GetMapping("/users")
-    public List<UserClass> getAllUsers(){
+    public List<UserClass> getAllUsers() {
         return db.getAllUsers();
     }
-//path param
+
+    //path param
 //http://localhost:8080/users/{id}     -- get api
     @GetMapping("/users/{id}")
-    public UserClass getAUser(@PathVariable int id){
-        return db.getAUser(id);
+    public ResponseEntity<UserClass> getAUser(@PathVariable int id) {
+        //adding response entity to add headers and status codes
+        UserClass user1 = db.getAUser(id);
+
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();   // to add multiple values for a given key
+        headers.put("server", Collections.singletonList("codeoftaran"));   //adding headers
+        HttpStatus status = HttpStatus.CREATED;   //adding status code as {201}
+
+        ResponseEntity<UserClass> response = new ResponseEntity<UserClass>(user1, headers, status);   //encapsulating UserClass in entity
+
+        return response;
+
     }
-//query param
+
+    //query param
     //http://localhost:8080/users?q="taran"     -- get api
     @GetMapping("/user")
-    public UserClass getAUser(@RequestParam String q)
-    {
+    public UserClass getAUser(@RequestParam String q) {
         return db.getAUserByName(q);
     }
 
     //post apis -->
 //    to add user
-    @PostMapping("/createUser")
-    public UserClass createUser(@RequestBody UserClass user){
+    @PostMapping("/createUser")    //modifying the status code of our api
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserClass createUser(@RequestBody UserClass user) {
         return db.AddUser(user);
     }
 }
+
+
+// old way of accessing apis ->
+//@RequestMapping(path = "/hi",method = RequestMethod.GET)
