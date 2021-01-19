@@ -50,10 +50,10 @@ public class Controller {
 
     //query param
     //http://localhost:8080/users?q="taran"     -- get api
-    @GetMapping("/user")
-    public UserClass getAUser(@RequestParam String q) {
-        return db.getAUserByName(q);
-    }
+//    @GetMapping("/users")
+//    public UserClass getAUser(@RequestParam String a) {
+//        return db.getAUserByName(a);
+//    }
 
     //post apis -->
 //    to add user
@@ -62,8 +62,18 @@ public class Controller {
     public UserClass createUser(@RequestBody UserClass user) {
         return db.AddUser(user);
     }
+
+
+////    delete apis  -->
+//    //users/{id}
+    @DeleteMapping("/users/{id}")
+
+        public boolean DeleteUser(@PathVariable int id){
+            return db.DeleteUser(id);
+
+    }
 }
 
 
 // old way of accessing apis ->
-//@RequestMapping(path = "/hi",method = RequestMethod.GET)
+//@RequestMapping(path = "/hi",method = RequestMethod.GET,consumes="application/json",produces="application/json")

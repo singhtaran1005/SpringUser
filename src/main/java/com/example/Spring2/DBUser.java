@@ -47,4 +47,16 @@ public class DBUser {
         userTable.add(user);
         return user;
     }
+    //deleting users
+    public boolean DeleteUser(int id) {
+        for (UserClass user : userTable) {
+            //found
+            if (user.getId()==id)
+                userTable.remove(user);
+                return true;
+        }
+        //not found
+        return false;
+
+    }
 }
